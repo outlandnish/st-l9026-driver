@@ -1,6 +1,6 @@
 # L9026 Driver Library
 
-A comprehensive Arduino/PlatformIO library for the **STMicroelectronics L9026** highly configurable multi-channel driver designed for automotive applications.
+A Arduino/PlatformIO library for the **STMicroelectronics L9026** highly configurable multi-channel, daisy-chainable driver designed for automotive applications.
 
 ## Features
 
