@@ -1,0 +1,29 @@
+{
+  "name": "L9026",
+  "version": "1.0.0",
+  "description": "Driver library for STMicroelectronics L9026 highly configurable multi-channel driver for automotive applications",
+  "keywords": [
+    "L9026",
+    "STMicroelectronics",
+    "automotive",
+    "relay driver",
+    "multi-channel",
+    "SPI"
+  ],
+  "authors": [
+    {
+      "name": "outlandnish",
+      "maintainer": true
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/outlandnish/st-l9026-driver.git"
+  },
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "dependencies": {
+    "SPI": "*"
+  }
+}
