@@ -16,7 +16,7 @@ A comprehensive Arduino/PlatformIO library for the **STMicroelectronics L9026** 
   - On-mode: Open load detection, overcurrent/overtemperature detection
 - **Daisy-Chain Support**
   - Control multiple L9026 devices via SPI
-  - Parallel diagnostic execution across devices
+  - Parallel configuration, diagnostics, and output update execution across devices
 - **Operating Modes**
   - Sleep, Idle, Limp-Home, Active modes
 - **Additional Features**
