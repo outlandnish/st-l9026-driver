@@ -42,8 +42,8 @@ bool L9026::begin() {
     devices[i].output_side[OutputChannel::CHANNEL_1] = OutputType::HIGH_SIDE;
 
     // setup channel diagnostics
-    for (uint8_t j = 0; j <= MAX_OUTPUT_CHANNEL; j++)
-      devices[i].diagnostics[(OutputChannel)j] = L9026ChannelDiagnostics();
+    for (auto j = OutputChannel::CHANNEL_0; j < OUTPUT_CHANNELS_COUNT; j++)
+      devices[i].diagnostics[j] = L9026ChannelDiagnostics();
   }
 
   // size of each transfer
@@ -478,8 +478,8 @@ void L9026::softReset() {
   // reset status + diagnostics
   for (uint8_t i = 0; i < device_count; i++) {
     devices[i].status = L9026DeviceStatus();
-    for (uint8_t j = 0; j <= MAX_OUTPUT_CHANNEL; j++) {
-      devices[i].diagnostics[(OutputChannel)j] = L9026ChannelDiagnostics();
+    for (auto j = OutputChannel::CHANNEL_0; j < OUTPUT_CHANNELS_COUNT; j++) {
+      devices[i].diagnostics[j] = L9026ChannelDiagnostics();
     }
   }
 }
@@ -578,8 +578,8 @@ void L9026::readDeviceOffModeOpenLoadDiagnostics(uint8_t device_id) {
   transfer(true);
 
   // Channel [7:0], MSB refers to channel 7. Bit values: 0: no open load detected 1: open load detected
-  for (uint8_t j = 0; j <= MAX_OUTPUT_CHANNEL; j++) {
-    devices[device_id].diagnostics[(OutputChannel)j].off_state_open_load_detected = (devices[device_id].transaction.data >> j) & 1;
+  for (auto j = OutputChannel::CHANNEL_0; j < OUTPUT_CHANNELS_COUNT; j++) {
+    devices[device_id].diagnostics[j].off_state_open_load_detected = (devices[device_id].transaction.data >> j) & 1;
   }
 }
 
@@ -591,8 +591,8 @@ void L9026::readDeviceOffModeShortedLoadDiagnostics(uint8_t device_id) {
   transfer(true);
 
   // Channel [7:0], MSB refers to channel 7. Bit values: 0: no short detected 1: short detected
-  for (uint8_t j = 0; j <= MAX_OUTPUT_CHANNEL; j++) {
-    devices[device_id].diagnostics[(OutputChannel)j].shorted_load_detected = (devices[device_id].transaction.data >> j) & 1;
+  for (auto j = OutputChannel::CHANNEL_0; j < OUTPUT_CHANNELS_COUNT; j++) {
+    devices[device_id].diagnostics[j].shorted_load_detected = (devices[device_id].transaction.data >> j) & 1;
   }
 }
 
@@ -624,8 +624,8 @@ void L9026::readDeviceOnModeOvercurrentOvertemperatureDiagnostics(uint8_t device
     transfer(true);
 
     // Channel [7:0], MSB refers to channel 7. Bit values: 0: no overcurrent/overtemperature detected 1: overcurrent/overtemperature detected
-    for (uint8_t j = 0; j <= MAX_OUTPUT_CHANNEL; j++) {
-      devices[device_id].diagnostics[(OutputChannel)j].overcurrent_overtemperature_detected = (devices[device_id].transaction.data >> j) & 1;
+    for (auto j = OutputChannel::CHANNEL_0; j < OUTPUT_CHANNELS_COUNT; j++) {
+      devices[device_id].diagnostics[j].overcurrent_overtemperature_detected = (devices[device_id].transaction.data >> j) & 1;
     }
   }
 }
@@ -668,8 +668,8 @@ void L9026::readDeviceOnModeOpenLoadDiagnosticsResults(uint8_t device_id, bool c
     transfer(true);
 
     // Channel [7:0], MSB refers to channel 7. Bit values: 0: no open load detected 1: open load detected
-    for (uint8_t j = 0; j <= MAX_OUTPUT_CHANNEL; j++) {
-      devices[device_id].diagnostics[(OutputChannel)j].on_state_open_load_detected = (devices[device_id].transaction.data >> j) & 1;
+    for (auto j = OutputChannel::CHANNEL_0; j < OUTPUT_CHANNELS_COUNT; j++) {
+      devices[device_id].diagnostics[j].on_state_open_load_detected = (devices[device_id].transaction.data >> j) & 1;
     }
   }
 }
@@ -684,8 +684,8 @@ void L9026::readAllDeviceOnModeDiagnostics() {
 
   // Process the batched read results
   for (uint8_t i = 0; i < device_count; i++) {
-    for (uint8_t j = 0; j <= MAX_OUTPUT_CHANNEL; j++) {
-      devices[i].diagnostics[(OutputChannel)j].overcurrent_overtemperature_detected = (devices[i].transaction.data >> j) & 1;
+    for (auto j = OutputChannel::CHANNEL_0; j < OUTPUT_CHANNELS_COUNT; j++) {
+      devices[i].diagnostics[j].overcurrent_overtemperature_detected = (devices[i].transaction.data >> j) & 1;
     }
   }
 
@@ -693,10 +693,10 @@ void L9026::readAllDeviceOnModeDiagnostics() {
   clearAllDeviceOvercurrentOvertemperatureErrors();
 
   // Test each channel across all devices in parallel (channels 2-7)
-  for (uint8_t channel = 2; channel <= MAX_OUTPUT_CHANNEL; channel++) {
+  for (auto channel = OutputChannel::CHANNEL_2; channel < OUTPUT_CHANNELS_COUNT; channel++) {
     // Enable diagnostics for this channel on all devices simultaneously
     for (uint8_t i = 0; i < device_count; i++) {
-      enableDeviceOnModeOpenLoadDiagnostics(i, (OutputChannel)channel, i == device_count - 1);
+      enableDeviceOnModeOpenLoadDiagnostics(i, channel, i == device_count - 1);
     }
   }
 
@@ -707,8 +707,8 @@ void L9026::readAllDeviceOnModeDiagnostics() {
 
   // Process the batched read results
   for (uint8_t i = 0; i < device_count; i++) {
-    for (uint8_t j = 0; j <= MAX_OUTPUT_CHANNEL; j++) {
-      devices[i].diagnostics[(OutputChannel)j].on_state_open_load_detected = (devices[i].transaction.data >> j) & 1;
+    for (auto j = OutputChannel::CHANNEL_0; j < OUTPUT_CHANNELS_COUNT; j++) {
+      devices[i].diagnostics[j].on_state_open_load_detected = (devices[i].transaction.data >> j) & 1;
     }
   }
 }

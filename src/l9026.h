@@ -69,7 +69,7 @@
 #define DEVICE_BUFFER_OFFSET(count, i) ((count - 1 - i) * sizeof(uint16_t))
 
 #define DISABLE_PWM_OUTPUT 0x00
-#define MAX_OUTPUT_CHANNEL 7
+#define OUTPUT_CHANNELS_COUNT 8
 
 #define RESET 0x80
 #define ENABLE_ACTIVE_MODE 0x40
